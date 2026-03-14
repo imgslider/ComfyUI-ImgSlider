@@ -38,7 +38,7 @@ pip install -r ComfyUI-ImgSlider/requirements.txt
 ## Usage
 
 1. Add **Image Compare (ImgSlider)** node to your workflow
-2. Connect your before and after images
+2. Connect your images to **Image A** and **Image B**
 3. Toggle **Publish** to YES
 4. Run workflow
 5. Copy the shareable link from the console output
@@ -70,8 +70,8 @@ Just toggle Publish and run. You'll get a shareable link instantly.
 
 | Input | Type | Description |
 |-------|------|-------------|
-| before_image | IMAGE | The "before" image |
-| after_image | IMAGE | The "after" image |
+| image_a | IMAGE | First image (left side of slider) |
+| image_b | IMAGE | Second image (right side of slider) |
 | title | STRING | Optional title for the slider |
 | api_key | STRING | Optional API key for permanent sliders |
 | publish | BOOLEAN | Toggle to publish and get shareable link |
@@ -79,9 +79,9 @@ Just toggle Publish and run. You'll get a shareable link instantly.
 ## Example Workflow
 
 ```
-[Load/Generate Before] ──┐
-                         ├──> [Image Compare (ImgSlider)] ──> Shareable URL
-[Load/Generate After] ───┘         (publish: YES)
+[Image A] ──┐
+            ├──> [Image Compare (ImgSlider)] ──> Shareable URL
+[Image B] ──┘         (publish: YES)
 ```
 
 ## Use Cases

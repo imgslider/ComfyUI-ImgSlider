@@ -25,8 +25,8 @@ class ImgSliderNode:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "before_image": ("IMAGE",),
-                "after_image": ("IMAGE",),
+                "image_a": ("IMAGE",),
+                "image_b": ("IMAGE",),
             },
             "optional": {
                 "title": ("STRING", {"default": ""}),
@@ -104,28 +104,30 @@ class ImgSliderNode:
         else:
             raise Exception(f"API Error {response.status_code}: {response.text}")
 
-    def process(self, before_image: torch.Tensor, after_image: torch.Tensor,
+    def process(self, image_a: torch.Tensor, image_b: torch.Tensor,
                 title: str = "",
                 api_key: str = "",
                 publish: bool = False) -> Dict[str, Any]:
         """Process images and optionally publish to imgslider.com"""
 
+        print(f"[ImgSlider] publish={publish}, api_key={'set' if api_key else 'empty'}")
+
         # Ensure images are the same size
-        if before_image.shape != after_image.shape:
-            after_image = torch.nn.functional.interpolate(
-                after_image.permute(0, 3, 1, 2),
-                size=(before_image.shape[1], before_image.shape[2]),
+        if image_a.shape != image_b.shape:
+            image_b = torch.nn.functional.interpolate(
+                image_b.permute(0, 3, 1, 2),
+                size=(image_a.shape[1], image_a.shape[2]),
                 mode='bilinear',
                 align_corners=False
             ).permute(0, 2, 3, 1)
 
         # Convert to PIL
-        before_pil = self.tensor_to_pil(before_image)
-        after_pil = self.tensor_to_pil(after_image)
+        image_a_pil = self.tensor_to_pil(image_a)
+        image_b_pil = self.tensor_to_pil(image_b)
 
-        # Save to temp files for preview
-        before_info = self.save_image(before_pil, "before")
-        after_info = self.save_image(after_pil, "after")
+        # Save to temp files for preview (swap order: B first, then A for correct slider display)
+        image_b_info = self.save_image(image_b_pil, "image_b")
+        image_a_info = self.save_image(image_a_pil, "image_a")
 
         # Handle API if enabled
         slider_url = ""
@@ -133,10 +135,10 @@ class ImgSliderNode:
 
         if publish:
             try:
-                before_b64 = self.pil_to_base64(before_pil)
-                after_b64 = self.pil_to_base64(after_pil)
+                image_a_b64 = self.pil_to_base64(image_a_pil)
+                image_b_b64 = self.pil_to_base64(image_b_pil)
                 result = self.create_slider_api(
-                    before_b64, after_b64,
+                    image_a_b64, image_b_b64,
                     title,
                     api_key
                 )
@@ -151,7 +153,7 @@ class ImgSliderNode:
 
         return {
             "ui": {
-                "slider_images": [before_info, after_info],
+                "slider_images": [image_b_info, image_a_info],
                 "slider_url": [slider_url],
                 "slider_error": [api_error],
             }

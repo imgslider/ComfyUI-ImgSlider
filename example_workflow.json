@@ -12,12 +12,22 @@
       "mode": 0,
       "inputs": [],
       "outputs": [
-        {"name": "IMAGE", "type": "IMAGE", "links": [1]},
-        {"name": "MASK", "type": "MASK", "links": null}
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [1]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
       ],
-      "title": "Load Before Image",
-      "properties": {"Node name for S&R": "LoadImage"},
-      "widgets_values": ["before_image.png", "image"]
+      "title": "Load Image A",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": ["image_a.png", "image"]
     },
     {
       "id": 2,
@@ -29,12 +39,22 @@
       "mode": 0,
       "inputs": [],
       "outputs": [
-        {"name": "IMAGE", "type": "IMAGE", "links": [2]},
-        {"name": "MASK", "type": "MASK", "links": null}
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [2]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
       ],
-      "title": "Load After Image",
-      "properties": {"Node name for S&R": "LoadImage"},
-      "widgets_values": ["after_image.png", "image"]
+      "title": "Load Image B",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": ["image_b.png", "image"]
     },
     {
       "id": 3,
@@ -45,11 +65,21 @@
       "order": 2,
       "mode": 0,
       "inputs": [
-        {"name": "before_image", "type": "IMAGE", "link": 1},
-        {"name": "after_image", "type": "IMAGE", "link": 2}
+        {
+          "name": "image_a",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "image_b",
+          "type": "IMAGE",
+          "link": 2
+        }
       ],
       "outputs": [],
-      "properties": {"Node name for S&R": "ImgSlider"},
+      "properties": {
+        "Node name for S&R": "ImgSlider"
+      },
       "widgets_values": ["", "", false]
     }
   ],

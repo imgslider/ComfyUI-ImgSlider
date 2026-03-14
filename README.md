@@ -2,11 +2,11 @@
 
 **Get a shareable link for your before/after comparisons.** Publish image sliders directly from ComfyUI to [imgslider.com](https://imgslider.com).
 
-![ImgSlider Preview](https://imgslider.com/home-after.webp)
+
 
 ## Why ImgSlider?
 
-Other comparison nodes only work locally. **ImgSlider gives you a link you can share anywhere** - Discord, Twitter, your portfolio, client reviews. One click to publish, instant shareable URL.
+Other comparison nodes only work locally. **ImgSlider gives you a link you can share anywhere** - Reddit, Discord, your portfolio, client reviews. One click to publish, instant shareable URL.
 
 ## Features
 

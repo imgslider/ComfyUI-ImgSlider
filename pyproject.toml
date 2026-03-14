@@ -9,6 +9,10 @@ authors = [
     {name = "ImgSlider", email = "hello@imgslider.com"}
 ]
 keywords = ["comfyui", "image", "compare", "comparison", "before", "after", "slider", "diff", "side-by-side", "imgslider"]
+dependencies = [
+    "requests>=2.28.0",
+    "Pillow>=9.0.0",
+]
 
 [project.urls]
 Homepage = "https://imgslider.com"

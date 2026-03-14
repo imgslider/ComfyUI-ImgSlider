@@ -2,8 +2,9 @@
 
 **Get a shareable link for your before/after comparisons.** Publish image sliders directly from ComfyUI to [imgslider.com](https://imgslider.com).
 
-[comfy ui node screenshot]
-[imgslider screenshot]
+<img width="500" alt="Image" src="https://github.com/user-attachments/assets/26851a72-7af3-4490-8a4f-6697f908d2b2" />
+
+<img width="500" alt="Image" src="https://github.com/user-attachments/assets/290693bf-941c-4e77-8b41-46c064a3551c" />
 
 Example - https://imgslider.com/25895cec-4656-40e9-bdf8-31ea08d27cf6
 

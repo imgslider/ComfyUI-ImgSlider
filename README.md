@@ -89,7 +89,7 @@ Just toggle Publish and run. You'll get a shareable link instantly.
 - **Share AI generations**: Compare models, prompts, or settings with others
 - **Client reviews**: Send a link instead of uploading multiple images
 - **Portfolio**: Showcase before/after transformations
-- **Social media**: Share comparisons on Discord, Twitter, Reddit
+- **Social Networks**: Share comparisons on Reddit, Discord, X
 
 ## License
 

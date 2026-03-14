@@ -1,0 +1,168 @@
+import torch
+import numpy as np
+from PIL import Image
+import io
+import base64
+import requests
+import os
+import random
+import folder_paths
+from typing import Dict, Any
+
+
+class ImgSliderNode:
+    """
+    ComfyUI node for creating before/after image comparison sliders with imgslider.com
+    """
+
+    def __init__(self):
+        self.output_dir = folder_paths.get_temp_directory()
+        self.type = "temp"
+        self.prefix_append = "_imgslider_" + ''.join(random.choice("abcdefghijklmnopqrstupvxyz") for x in range(5))
+        self.compress_level = 1
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "before_image": ("IMAGE",),
+                "after_image": ("IMAGE",),
+            },
+            "optional": {
+                "title": ("STRING", {"default": ""}),
+                "api_key": ("STRING", {"default": ""}),
+                "publish": ("BOOLEAN", {"default": False, "label_on": "YES", "label_off": "NO"}),
+            }
+        }
+
+    DESCRIPTION = "Create before/after image comparison sliders. Publish to imgslider.com for shareable links. Works without API key (anonymous, expires in 30 days) or with API key (permanent, editable)."
+
+    RETURN_TYPES = ()
+    FUNCTION = "process"
+    CATEGORY = "ImgSlider"
+    OUTPUT_NODE = True
+
+    def tensor_to_pil(self, image_tensor: torch.Tensor) -> Image.Image:
+        """Convert a ComfyUI tensor to PIL Image"""
+        if image_tensor.dim() == 4:
+            image = image_tensor[0]
+        else:
+            image = image_tensor
+
+        numpy_image = image.cpu().numpy()
+        numpy_image = np.clip(numpy_image * 255, 0, 255).astype(np.uint8)
+        return Image.fromarray(numpy_image, mode='RGB')
+
+    def pil_to_base64(self, pil_image: Image.Image) -> str:
+        """Convert PIL Image to base64 data URL"""
+        buffer = io.BytesIO()
+        pil_image.save(buffer, format='PNG')
+        buffer.seek(0)
+        b64 = base64.b64encode(buffer.read()).decode('utf-8')
+        return f"data:image/png;base64,{b64}"
+
+    def save_image(self, pil_image: Image.Image, prefix: str) -> dict:
+        """Save image to temp directory and return file info"""
+        counter = random.randint(0, 99999)
+        file = f"{prefix}{self.prefix_append}_{counter:05}_.png"
+        filepath = os.path.join(self.output_dir, file)
+        pil_image.save(filepath, compress_level=self.compress_level)
+
+        return {
+            "filename": file,
+            "subfolder": "",
+            "type": self.type
+        }
+
+    def create_slider_api(self, before_b64: str, after_b64: str,
+                         title: str, api_key: str = "") -> Dict[str, Any]:
+        """Create a slider via imgslider.com API. Works with or without API key."""
+        api_url = "https://api.imgslider.com/v1/sliders/external"
+
+        payload = {
+            "before_image": before_b64,
+            "after_image": after_b64,
+            "title": title or "ComfyUI Slider",
+            "before_label": "Before",
+            "after_label": "After",
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        # Add auth header only if API key provided
+        if api_key:
+            headers["Authorization"] = f"Bearer {api_key}"
+
+        response = requests.post(api_url, json=payload, headers=headers, timeout=60)
+
+        if response.status_code == 201:
+            return response.json()
+        elif response.status_code == 429:
+            raise Exception("Rate limit exceeded. Anonymous users can create 20 sliders per day.")
+        else:
+            raise Exception(f"API Error {response.status_code}: {response.text}")
+
+    def process(self, before_image: torch.Tensor, after_image: torch.Tensor,
+                title: str = "",
+                api_key: str = "",
+                publish: bool = False) -> Dict[str, Any]:
+        """Process images and optionally publish to imgslider.com"""
+
+        # Ensure images are the same size
+        if before_image.shape != after_image.shape:
+            after_image = torch.nn.functional.interpolate(
+                after_image.permute(0, 3, 1, 2),
+                size=(before_image.shape[1], before_image.shape[2]),
+                mode='bilinear',
+                align_corners=False
+            ).permute(0, 2, 3, 1)
+
+        # Convert to PIL
+        before_pil = self.tensor_to_pil(before_image)
+        after_pil = self.tensor_to_pil(after_image)
+
+        # Save to temp files for preview
+        before_info = self.save_image(before_pil, "before")
+        after_info = self.save_image(after_pil, "after")
+
+        # Handle API if enabled
+        slider_url = ""
+        api_error = ""
+
+        if publish:
+            try:
+                before_b64 = self.pil_to_base64(before_pil)
+                after_b64 = self.pil_to_base64(after_pil)
+                result = self.create_slider_api(
+                    before_b64, after_b64,
+                    title,
+                    api_key
+                )
+                slider_url = result.get("url", "")
+                if api_key:
+                    print(f"\n🔗 ImgSlider URL: {slider_url}\n")
+                else:
+                    print(f"\n🔗 ImgSlider URL: {slider_url} (anonymous - expires in 30 days)\n")
+            except Exception as e:
+                api_error = str(e)
+                print(f"\n❌ ImgSlider API Error: {api_error}\n")
+
+        return {
+            "ui": {
+                "slider_images": [before_info, after_info],
+                "slider_url": [slider_url],
+                "slider_error": [api_error],
+            }
+        }
+
+
+# Node registration
+NODE_CLASS_MAPPINGS = {
+    "ImgSlider": ImgSliderNode,
+}
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "ImgSlider": "Image Compare (ImgSlider)",
+}

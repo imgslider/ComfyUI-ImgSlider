@@ -1,0 +1,20 @@
+[project]
+name = "comfyui-imgslider"
+version = "1.0.0"
+description = "Image Compare - Before/After slider for comparing images. Share comparisons via imgslider.com"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "ImgSlider", email = "hello@imgslider.com"}
+]
+keywords = ["comfyui", "image", "compare", "comparison", "before", "after", "slider", "diff", "side-by-side", "imgslider"]
+
+[project.urls]
+Homepage = "https://imgslider.com"
+Repository = "https://github.com/imgslider/ComfyUI-ImgSlider"
+
+[tool.comfy]
+PublisherId = "imgslider"
+DisplayName = "Image Compare (ImgSlider)"
+Icon = "https://imgslider.com/assets/imgslider-logo-Bux_66-h.svg"

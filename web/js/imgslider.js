@@ -207,46 +207,11 @@ function createSlider(data) {
         pointer-events: none;
     `;
 
-    // Labels
-    const beforeLabel = document.createElement("span");
-    beforeLabel.textContent = "Before";
-    beforeLabel.style.cssText = `
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: rgba(0, 0, 0, 0.6);
-        color: rgba(255, 255, 255, 0.8);
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 10px;
-        font-family: system-ui, sans-serif;
-        z-index: 5;
-        pointer-events: none;
-    `;
-
-    const afterLabel = document.createElement("span");
-    afterLabel.textContent = "After";
-    afterLabel.style.cssText = `
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        background: rgba(0, 0, 0, 0.6);
-        color: rgba(255, 255, 255, 0.8);
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 10px;
-        font-family: system-ui, sans-serif;
-        z-index: 5;
-        pointer-events: none;
-    `;
-
     // Assemble
     afterClip.appendChild(afterImg);
     imageWrapper.appendChild(beforeImg);
     imageWrapper.appendChild(afterClip);
     imageWrapper.appendChild(divider);
-    imageWrapper.appendChild(beforeLabel);
-    imageWrapper.appendChild(afterLabel);
     container.appendChild(imageWrapper);
 
     // Hover-based slider

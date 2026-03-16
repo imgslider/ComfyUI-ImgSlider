@@ -42,6 +42,18 @@ class ImgSliderNode:
     CATEGORY = "ImgSlider"
     OUTPUT_NODE = True
 
+    # Alternative search terms for discoverability
+    SEARCH_ALIASES = ["comparison", "compare", "before after", "diff", "side by side", "image diff"]
+
+    @classmethod
+    def VALIDATE_INPUTS(cls, image_a, image_b, **kwargs):
+        """Validate inputs before execution"""
+        if image_a is None:
+            return "Image A is required"
+        if image_b is None:
+            return "Image B is required"
+        return True
+
     def tensor_to_pil(self, image_tensor: torch.Tensor) -> Image.Image:
         """Convert a ComfyUI tensor to PIL Image"""
         if image_tensor.dim() == 4:
@@ -53,13 +65,14 @@ class ImgSliderNode:
         numpy_image = np.clip(numpy_image * 255, 0, 255).astype(np.uint8)
         return Image.fromarray(numpy_image, mode='RGB')
 
-    def pil_to_base64(self, pil_image: Image.Image) -> str:
-        """Convert PIL Image to base64 data URL"""
+    def pil_to_base64(self, pil_image: Image.Image, quality: int = 85) -> str:
+        """Convert PIL Image to base64 data URL (WebP for smaller size)"""
         buffer = io.BytesIO()
-        pil_image.save(buffer, format='PNG')
+        # Use WebP for much smaller file sizes (typically 30-50% smaller than PNG)
+        pil_image.save(buffer, format='WEBP', quality=quality)
         buffer.seek(0)
         b64 = base64.b64encode(buffer.read()).decode('utf-8')
-        return f"data:image/png;base64,{b64}"
+        return f"data:image/webp;base64,{b64}"
 
     def save_image(self, pil_image: Image.Image, prefix: str) -> dict:
         """Save image to temp directory and return file info"""

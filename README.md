@@ -2,7 +2,7 @@
 
 **Get a shareable link for your before/after comparisons.** Publish image sliders directly from ComfyUI to [imgslider.com](https://imgslider.com).
 
-<img alt="ComfyUI ImgSlider diagram" src="assets/diagram.png" />
+<img alt="ComfyUI ImgSlider diagram" src="assets/diagram.webp" />
 
 Example - https://imgslider.com/25895cec-4656-40e9-bdf8-31ea08d27cf6
 

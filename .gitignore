@@ -22,6 +22,9 @@ Thumbs.db
 *.png
 *.jpg
 *.webp
+!assets/*.png
+!assets/*.jpg
+!assets/*.webp
 
 # Logs
 *.log

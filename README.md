@@ -2,9 +2,7 @@
 
 **Get a shareable link for your before/after comparisons.** Publish image sliders directly from ComfyUI to [imgslider.com](https://imgslider.com).
 
-<img width="500" alt="Image" src="https://github.com/user-attachments/assets/26851a72-7af3-4490-8a4f-6697f908d2b2" />
-
-<img width="500" alt="Image" src="https://github.com/user-attachments/assets/290693bf-941c-4e77-8b41-46c064a3551c" />
+<img alt="ComfyUI ImgSlider diagram" src="assets/diagram.png" />
 
 Example - https://imgslider.com/25895cec-4656-40e9-bdf8-31ea08d27cf6
 
@@ -16,7 +14,8 @@ Other comparison nodes only work locally. **ImgSlider gives you a link you can s
 
 - **Shareable Links**: Publish and get a URL to share your comparison anywhere
 - **No Account Required**: Create sliders instantly (expire after 30 days)
-- **Inline Preview**: See the comparison directly in your workflow
+- **Inline Preview**: See the comparison directly in your workflow node
+- **Link in Node**: The published URL appears right inside the node — no need to check the console
 - **One-Click Publishing**: Toggle publish, run workflow, get link
 
 ## Installation
@@ -42,7 +41,7 @@ pip install -r ComfyUI-ImgSlider/requirements.txt
 2. Connect your images to **Image A** and **Image B**
 3. Toggle **Publish** to YES
 4. Run workflow
-5. Copy the shareable link from the console output
+5. Copy the shareable link from the URL bar that appears directly in the node
 
 ### Anonymous (No Account)
 

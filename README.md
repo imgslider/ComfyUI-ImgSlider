@@ -4,7 +4,7 @@
 
 <img alt="ComfyUI ImgSlider diagram" src="assets/diagram.webp" />
 
-Example - https://imgslider.com/25895cec-4656-40e9-bdf8-31ea08d27cf6
+Example - https://imgslider.com/4c137c51-3f2c-4f38-98e3-98ada75cb5dd
 
 ## Why ImgSlider?
 

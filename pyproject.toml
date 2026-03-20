@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "Image Compare - Before/After slider for comparing images. Share comparisons via imgslider.com"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "MIT"}
+license = { file = "LICENSE" }
 authors = [
     {name = "ImgSlider", email = "hello@imgslider.com"}
 ]

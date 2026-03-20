@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-imgslider"
-version = "1.0.0"
+version = "1.0.1"
 description = "Image Compare - Before/After slider for comparing images. Share comparisons via imgslider.com"
 readme = "README.md"
 requires-python = ">=3.8"

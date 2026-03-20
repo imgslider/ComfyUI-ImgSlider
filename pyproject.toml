@@ -21,5 +21,5 @@ Repository = "https://github.com/imgslider/ComfyUI-ImgSlider"
 [tool.comfy]
 PublisherId = "imgslider"
 DisplayName = "Image Compare (ImgSlider)"
-Icon = "https://imgslider.com/assets/imgslider-logo-Bux_66-h.svg"
+Icon = "https://imgslider.com/logo.webp"
 ComfyUIVersion = ">=0.2.0"

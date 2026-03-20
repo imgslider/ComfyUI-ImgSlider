@@ -20,6 +20,6 @@ Repository = "https://github.com/imgslider/ComfyUI-ImgSlider"
 
 [tool.comfy]
 PublisherId = "imgslider"
-DisplayName = "Image Compare (ImgSlider)"
+DisplayName = "ImgSlider — Share Before/After Comparisons"
 Icon = "https://imgslider.com/logo.webp"
 ComfyUIVersion = ">=0.2.0"
